@@ -1,0 +1,41 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --bg: #08080e;
+  --surface: #101018;
+  --surface-2: #181824;
+  --surface-3: #20202e;
+  --accent: #00e87b;
+  --accent-dim: #00b860;
+  --hot: #ff2d55;
+  --warm: #ff9500;
+  --cool: #5e5ce6;
+  --sky: #30d5c8;
+  --text: #e4e4ee;
+  --text-dim: #8e8ea8;
+  --text-muted: #55556e;
+  --border: #252538;
+}
+
+body {
+  font-family: var(--font-body), system-ui, sans-serif;
+  background: var(--bg);
+  color: var(--text);
+}
+
+.font-mono {
+  font-family: var(--font-mono), 'Courier New', monospace;
+}
+
+/* Scrollbar */
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-track { background: var(--bg); }
+::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
+::-webkit-scrollbar-thumb:hover { background: var(--text-muted); }
+
+/* Wallet modal overrides */
+[data-rk] {
+  --rk-colors-accentColor: #00e87b !important;
+}
