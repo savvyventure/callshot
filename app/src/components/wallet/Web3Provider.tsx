@@ -59,7 +59,7 @@ export function Web3Provider({ children }: { children: React.ReactNode }) {
           logo: '',
           landingHeader: 'Sign in to Verdix',
           loginMessage: 'Predict. Compete. Cash out.',
-          walletList: ['metamask', 'coinbase_wallet', 'okx_wallet', 'cryptocom', 'rainbow'],
+          walletList: ['metamask', 'coinbase_wallet', 'rainbow'],
         },
         embeddedWallets: {
           ethereum: {
