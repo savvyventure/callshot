@@ -1,6 +1,4 @@
 {
-  "installCommand": "cd app && npm install",
-  "buildCommand": "cd app && next build --webpack",
-  "outputDirectory": "app/.next",
-  "framework": null
+  "installCommand": "npm install",
+  "buildCommand": "next build --webpack"
 }
