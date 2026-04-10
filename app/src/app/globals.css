@@ -3,20 +3,20 @@
 /* ─── Verdix Design Tokens ─────────────────────────────────── */
 :root {
   --bg:         #05050e;
-  --surface:    #0c0c1d;
-  --surface-2:  #111124;
-  --surface-3:  #181830;
+  --surface:    #0e0e20;
+  --surface-2:  #141428;
+  --surface-3:  #1c1c38;
   --accent:     #00e57a;
   --accent-dim: #00b862;
-  --hot:        #ff2d55;
-  --warm:       #ff9500;
-  --cool:       #6e6ef5;
+  --hot:        #ff3b5c;
+  --warm:       #ff9f0a;
+  --cool:       #7b7cf7;
   --sky:        #2fd7c4;
-  --text:       #f2f2ff;
-  --text-dim:   #7878a0;
-  --text-muted: #3a3a58;
-  --border:     #16162e;
-  --border-2:   #222240;
+  --text:       #ffffff;
+  --text-dim:   #a0a0c4;
+  --text-muted: #606080;
+  --border:     #1e1e38;
+  --border-2:   #2c2c50;
 }
 
 /* ─── Base ─────────────────────────────────────────────────── */
