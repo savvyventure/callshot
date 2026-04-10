@@ -27,7 +27,7 @@ function useLiveStats() {
 }
 
 const STEPS = [
-  { icon: '✉️', title: 'Sign in — takes 10 seconds', desc: 'Use email, Google, or Apple. We create your wallet automatically — no setup needed.' },
+  { icon: '✉️', title: 'Sign in — takes 10 seconds', desc: 'Use email or Google. We create your wallet automatically — no seed phrases, no setup.' },
   { icon: '🎯', title: 'Pick YES or NO', desc: 'Five fresh questions every day on crypto, markets & culture. Bet what you know.' },
   { icon: '💸', title: 'Win the pool', desc: 'Right side takes the whole pot. Winnings land directly in your wallet — withdraw anytime.' },
 ];
@@ -78,7 +78,7 @@ export default function Home() {
               >
                 Get Started — Free →
               </button>
-              <p className="text-xs text-[--text-muted]">Email · Google · Apple · or your existing wallet</p>
+              <p className="text-xs text-[--text-muted]">Email · Google · or your existing wallet</p>
             </>
           ) : (
             <Link

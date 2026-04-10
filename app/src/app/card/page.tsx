@@ -12,6 +12,7 @@ import { PositionModal } from '@/components/cards/PositionModal';
 import { getYesProbability } from '@/lib/utils';
 import { useTakePosition, TakePositionState } from '@/hooks/useTakePosition';
 import { useEscrowBalance } from '@/hooks/useEscrowBalance';
+import { FundingGuide } from '@/components/wallet/FundingGuide';
 
 interface PendingPosition {
   questionId: string;
@@ -244,7 +245,7 @@ export default function CardPage() {
           >
             Sign in to Play
           </button>
-          <p className="text-xs text-[--text-muted]">Email · Google · Apple · or your wallet</p>
+          <p className="text-xs text-[--text-muted]">Email · Google · or your wallet</p>
         </div>
       </main>
     );
@@ -308,17 +309,21 @@ export default function CardPage() {
           questionCount={questions.length}
         />
 
-        {/* Platform balance hint */}
-        <div className="flex items-center justify-between bg-[--surface] border border-[--border] rounded-xl px-4 py-3">
-          <div>
-            <p className="text-xs text-[--text-muted]">Available to bet</p>
-            <p className="text-lg font-mono font-bold text-[--accent]">${platformBalance.toFixed(2)}</p>
+        {/* Balance / Onboarding */}
+        {platformBalance === 0 ? (
+          <FundingGuide />
+        ) : (
+          <div className="flex items-center justify-between bg-[--surface] border border-[--border] rounded-xl px-4 py-3">
+            <div>
+              <p className="text-xs text-[--text-muted]">Available to bet</p>
+              <p className="text-lg font-mono font-bold text-[--accent]">${platformBalance.toFixed(2)}</p>
+            </div>
+            <div className="text-xs text-[--text-muted] text-right">
+              <p>USDT · USDC</p>
+              <p className="text-[10px]">platform balance</p>
+            </div>
           </div>
-          <div className="text-xs text-[--text-muted] text-right">
-            <p>USDT</p>
-            <p className="text-[10px]">platform balance</p>
-          </div>
-        </div>
+        )}
 
         {/* Questions */}
         <div className="flex flex-col gap-4">
