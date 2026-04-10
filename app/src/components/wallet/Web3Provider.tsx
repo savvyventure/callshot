@@ -52,7 +52,7 @@ export function Web3Provider({ children }: { children: React.ReactNode }) {
     <PrivyProvider
       appId={privyAppId}
       config={{
-        loginMethods: ['email', 'google', 'apple', 'wallet'],
+        loginMethods: ['email', 'google', 'wallet'],
         appearance: {
           theme: 'dark',
           accentColor: '#00e87b',
