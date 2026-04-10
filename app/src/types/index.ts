@@ -1,4 +1,4 @@
-// Core domain types for CALLSHOT
+// Core domain types for Verdix
 
 export type QuestionStatus = 'open' | 'closed' | 'resolved';
 export type QuestionOutcome = 'YES' | 'NO' | null;
@@ -37,6 +37,8 @@ export interface DailyCard {
   total_volume: number;
   total_players: number;
   closes_at: string;
+  is_active: boolean;
+  created_at: string;
 }
 
 export interface Position {
