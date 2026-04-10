@@ -13,6 +13,9 @@ const nextConfig: NextConfig = {
       '@solana-program/system': false,
       '@solana-program/token': false,
       '@solana/kit': false,
+      '@coinbase/wallet-sdk': false,
+      '@metamask/connect-evm': false,
+      '@walletconnect/ethereum-provider': false,
     };
     return config;
   },
