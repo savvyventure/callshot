@@ -137,6 +137,10 @@ p { line-height: 1.6; }
   to { transform: rotate(360deg); }
 }
 
+@keyframes ping {
+  75%, 100% { transform: scale(2); opacity: 0; }
+}
+.animate-ping       { animation: ping        1.2s cubic-bezier(0,0,0.2,1) infinite; }
 .animate-pulse-glow { animation: pulse-glow  2s   ease-in-out infinite; }
 .animate-slide-up   { animation: slide-up    0.3s cubic-bezier(0.32,0.72,0,1) forwards; }
 .animate-fade-in    { animation: fade-in     0.3s ease-out forwards; }
