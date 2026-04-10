@@ -1,126 +1,167 @@
 'use client';
 
 import Link from 'next/link';
-import { usePathname } from 'next/navigation';
+import { usePathname, useRouter } from 'next/navigation';
 import { usePrivy } from '@privy-io/react-auth';
 import { useAccount } from 'wagmi';
 
+/* ── Top-right avatar — taps go to Profile, never auto-logout ── */
 function AuthButton() {
-  const { ready, authenticated, login, logout, user } = usePrivy();
+  const { ready, authenticated, login, user } = usePrivy();
   const { address } = useAccount();
+  const router = useRouter();
 
-  if (!ready) return <div className="w-20 h-9 rounded-xl bg-[--surface] animate-pulse" />;
+  if (!ready) return <div className="w-8 h-8 rounded-full bg-[--surface-2] animate-pulse" />;
 
   if (!authenticated) {
     return (
       <button
         onClick={login}
-        className="px-5 py-2 bg-[--accent] text-[--bg] font-bold text-sm rounded-xl active:scale-95 transition-transform glow-accent"
+        className="px-4 py-2 bg-[--accent] text-[--bg] font-bold text-sm rounded-xl active:scale-95 transition-transform"
+        style={{ boxShadow: '0 0 20px rgba(0,232,123,0.3)' }}
       >
         Sign in
       </button>
     );
   }
 
-  const label = user?.email?.address
-    ? user.email.address.split('@')[0]
+  /* Avatar — first letter of email or wallet short */
+  const initials = user?.email?.address
+    ? user.email.address[0].toUpperCase()
     : address
-      ? `${address.slice(0, 6)}…${address.slice(-4)}`
-      : 'You';
+      ? address.slice(2, 4).toUpperCase()
+      : '?';
 
   return (
     <button
-      onClick={logout}
-      className="flex items-center gap-2 px-3 py-1.5 border border-[--border-2] rounded-xl text-xs font-mono text-[--text-dim] hover:border-[--accent]/40 hover:text-[--text] transition-all"
+      onClick={() => router.push('/profile')}
+      aria-label="Profile"
+      className="w-9 h-9 rounded-full flex items-center justify-center font-black text-sm text-[--bg] active:scale-95 transition-transform"
+      style={{ background: 'var(--accent)', boxShadow: '0 0 16px rgba(0,232,123,0.35)' }}
     >
-      <span className="w-2 h-2 rounded-full bg-[--accent] animate-pulse-glow flex-shrink-0" />
-      {label}
+      {initials}
     </button>
+  );
+}
+
+/* ── Bottom tab item ── */
+function Tab({ href, label, active, icon }: {
+  href: string; label: string; active: boolean; icon: React.ReactNode;
+}) {
+  return (
+    <Link
+      href={href}
+      className="relative flex-1 flex flex-col items-center justify-center gap-[3px] py-3 transition-colors"
+      style={{ color: active ? 'var(--accent)' : 'var(--text-muted)' }}
+    >
+      {/* Active pill background */}
+      {active && (
+        <span
+          className="absolute inset-x-3 top-1.5 bottom-1.5 rounded-2xl"
+          style={{ background: 'rgba(0,232,123,0.08)' }}
+        />
+      )}
+      <span className="relative z-10">{icon}</span>
+      <span className="relative z-10 text-[10px] font-semibold tracking-wide">{label}</span>
+    </Link>
   );
 }
 
 export function Nav() {
   const { authenticated } = usePrivy();
   const pathname = usePathname();
-  const isActive = (href: string) => pathname === href;
+
+  const tabs = [
+    {
+      href: '/card',
+      label: 'Play',
+      icon: (active: boolean) => (
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={active ? 2.2 : 1.7} strokeLinecap="round" strokeLinejoin="round">
+          <rect x="3" y="3" width="18" height="18" rx="4"/>
+          <path d="M12 8v8M8 12h8"/>
+        </svg>
+      ),
+    },
+    {
+      href: '/leaderboard',
+      label: 'Ranks',
+      icon: (active: boolean) => (
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={active ? 2.2 : 1.7} strokeLinecap="round" strokeLinejoin="round">
+          <path d="M8 18v-6M12 18V6M16 18v-9"/>
+        </svg>
+      ),
+    },
+    {
+      href: '/profile',
+      label: 'Profile',
+      icon: (active: boolean) => (
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={active ? 2.2 : 1.7} strokeLinecap="round" strokeLinejoin="round">
+          <circle cx="12" cy="8" r="3.5"/>
+          <path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/>
+        </svg>
+      ),
+    },
+  ];
 
   return (
     <>
-      {/* ── Top nav ── */}
-      <nav className="flex items-center justify-between px-4 sm:px-8 py-3 border-b border-[--border] bg-[--bg]/85 backdrop-blur-xl sticky top-0 z-40">
-
+      {/* ── Top nav ────────────────────────────────────────── */}
+      <nav
+        className="sticky top-0 z-40 flex items-center justify-between px-4 py-3"
+        style={{
+          background: 'rgba(6,6,15,0.8)',
+          backdropFilter: 'blur(24px)',
+          WebkitBackdropFilter: 'blur(24px)',
+          borderBottom: '1px solid rgba(255,255,255,0.06)',
+        }}
+      >
         {/* Logo */}
-        <Link href="/" className="text-xl font-black tracking-tight leading-none">
-          VERD<span className="text-[--accent]">IX</span>
+        <Link href="/" className="text-[22px] font-black tracking-[-0.04em] leading-none select-none">
+          VERD<span style={{ color: 'var(--accent)' }}>IX</span>
         </Link>
 
-        <div className="flex items-center gap-4 sm:gap-6">
-          {authenticated && (
-            <div className="hidden sm:flex items-center gap-6">
-              {[
-                { href: '/card', label: "Today's Card" },
-                { href: '/leaderboard', label: 'Leaderboard' },
-                { href: '/profile', label: 'Profile' },
-              ].map(({ href, label }) => (
-                <Link
-                  key={href}
-                  href={href}
-                  className={`text-sm font-medium transition-colors ${
-                    isActive(href)
-                      ? 'text-[--accent]'
-                      : 'text-[--text-dim] hover:text-[--text]'
-                  }`}
-                >
-                  {label}
-                </Link>
-              ))}
-            </div>
-          )}
-          <AuthButton />
-        </div>
+        {/* Desktop links */}
+        {authenticated && (
+          <div className="hidden sm:flex items-center gap-7">
+            {tabs.map(({ href, label }) => (
+              <Link
+                key={href}
+                href={href}
+                className="text-sm font-medium transition-colors"
+                style={{ color: pathname === href ? 'var(--accent)' : 'var(--text-dim)' }}
+              >
+                {label}
+              </Link>
+            ))}
+          </div>
+        )}
+
+        <AuthButton />
       </nav>
 
-      {/* ── Mobile bottom nav ── */}
+      {/* ── Mobile bottom tab bar ───────────────────────────── */}
       {authenticated && (
-        <div className="sm:hidden fixed bottom-0 left-0 right-0 z-40 bg-[--surface]/95 backdrop-blur-xl border-t border-[--border] pb-safe">
-          <div className="flex items-stretch justify-around">
-            <BottomTab href="/card" label="Play" active={isActive('/card')}>
-              <svg viewBox="0 0 24 24" fill="none" className="w-5 h-5" stroke="currentColor" strokeWidth={1.8}>
-                <rect x="3" y="3" width="18" height="18" rx="3.5"/>
-                <path d="M9 12h6M12 9v6"/>
-              </svg>
-            </BottomTab>
-            <BottomTab href="/leaderboard" label="Ranks" active={isActive('/leaderboard')}>
-              <svg viewBox="0 0 24 24" fill="none" className="w-5 h-5" stroke="currentColor" strokeWidth={1.8}>
-                <path d="M8 18v-5M12 18V6M16 18v-9"/>
-              </svg>
-            </BottomTab>
-            <BottomTab href="/profile" label="Profile" active={isActive('/profile')}>
-              <svg viewBox="0 0 24 24" fill="none" className="w-5 h-5" stroke="currentColor" strokeWidth={1.8}>
-                <circle cx="12" cy="8" r="3.5"/>
-                <path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/>
-              </svg>
-            </BottomTab>
-          </div>
+        <div
+          className="sm:hidden fixed bottom-0 left-0 right-0 z-40 flex"
+          style={{
+            background: 'rgba(13,13,28,0.96)',
+            backdropFilter: 'blur(24px)',
+            WebkitBackdropFilter: 'blur(24px)',
+            borderTop: '1px solid rgba(255,255,255,0.07)',
+            paddingBottom: 'env(safe-area-inset-bottom, 12px)',
+          }}
+        >
+          {tabs.map(({ href, label, icon }) => (
+            <Tab
+              key={href}
+              href={href}
+              label={label}
+              active={pathname === href}
+              icon={icon(pathname === href)}
+            />
+          ))}
         </div>
       )}
     </>
-  );
-}
-
-function BottomTab({ href, label, active, children }: {
-  href: string; label: string; active: boolean; children: React.ReactNode;
-}) {
-  return (
-    <Link
-      href={href}
-      className={`flex-1 flex flex-col items-center justify-center gap-0.5 py-2.5 transition-colors ${
-        active ? 'text-[--accent]' : 'text-[--text-muted]'
-      }`}
-    >
-      {children}
-      <span className="text-[10px] font-semibold tracking-wide">{label}</span>
-      {active && <span className="absolute bottom-1.5 w-4 h-0.5 rounded-full bg-[--accent]" />}
-    </Link>
   );
 }

@@ -1,11 +1,11 @@
 import type { Metadata } from 'next';
-import { JetBrains_Mono, DM_Sans } from 'next/font/google';
+import { JetBrains_Mono, Inter } from 'next/font/google';
 import { Web3Provider } from '@/components/wallet/Web3Provider';
 import './globals.css';
 
 export const dynamic = 'force-dynamic';
 
-const dmSans = DM_Sans({
+const inter = Inter({
   subsets: ['latin'],
   variable: '--font-body',
   weight: ['400', '500', '600', '700', '800', '900'],
@@ -24,7 +24,7 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en" className={`${dmSans.variable} ${jetbrains.variable}`}>
+    <html lang="en" className={`${inter.variable} ${jetbrains.variable}`}>
       <body className="bg-[#06060f] text-[#f0f0ff] font-sans antialiased">
         <Web3Provider>
           {children}
